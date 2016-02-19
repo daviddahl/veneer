@@ -1,6 +1,12 @@
 // Veneer helper object
 
 var veneer = {
+  checkEnv: function () {
+    if (!('content' in document.createElement('template'))) {
+      console.error('<template> tag not supported in this browser!');
+    }
+  },
+
   makeNode: function (templateId, data, parent) {
     // Use Typo to handle arg validation
     var qid = '#' + templateId;
@@ -14,21 +20,15 @@ var veneer = {
     }
     var clone = document.importNode(tmpl.content, true);
     // TODO: Check if parent is a function or DOM node
-    parent.appendChild(clone);
-  }
+    this.attachNode(parent, clone);
+    return clone;
+  },
+
+  attachNode: function (parent, child, attachmentFn) {
+    parent.appendChild(child);
+  },
+  
 };
 
-if (!('content' in document.createElement('template'))) {
-  console.error('<template> tag not supported in this browser!');
-}
+export { veneer as default };
 
-// Tests
-
-function testMakeNode() {
-  var userData = {
-    username: 'deeznuts',
-    bio: 'Born in a log cabin, world traveller, whisky nut'
-  }
-  var parent = document.querySelector('#app');
-  veneer.makeNode('user-data', userData, parent);
-}
