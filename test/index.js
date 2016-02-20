@@ -1,6 +1,13 @@
 // veneer tests
 import veneer from '../src/index.js';
 
+function testHeader() {
+  var data = { header: 'THIS IS MY HTML PAGE' };
+  var parent = document.querySelector('#app');
+  var node = veneer.makeNode('header', data, parent);
+  console.info('node created: ', node);
+}
+
 function testMakeNode() {
   var userData = {
     username: 'deeznuts',
@@ -20,10 +27,47 @@ function testMakeList() {
   }
 }
 
+function testPlaceUIElement() {
+  let selectNode = veneer.placeUIElement({
+    templateId: 'select',
+    parent: '#app',
+    id: 'my-select'
+  });
+
+  var myList = [
+    'passport', 'whisky bottle',
+    'backpack', 'mint gum',
+    'pistola', 'sleeping bag',
+    'map of Amazonia',
+    'whip'
+  ];
+
+  for (let idx in myList) {
+    console.info(myList[idx]);
+    var newNode = veneer.placeUIElement({
+      templateId: 'option',
+      assignedData: {'select-item': myList[idx]},
+      parent: '.select'
+    });
+    console.log(newNode);
+  }
+
+  veneer.placeUIElement({
+    templateId: 'button',
+    parent: '#app',
+    assignedData: {'button': 'Pushhhhh Iiiit'},
+    id: 'pushme-button',
+    eventHandlers: {
+      click: function () { alert('oooohhh Baby Baby!'); }
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   veneer.checkEnv();
+  testHeader();
   testMakeNode();
   testMakeList();
+  testPlaceUIElement();
   console.info('tests finished!');
 });
-
