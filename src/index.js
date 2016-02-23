@@ -86,14 +86,12 @@ var veneer = {
         }
       }
     }
+
     var clone = document.importNode(tmpl.content, true);
-    if (id && (clone.setAttribute)) {
-      clone.setAttribute('id', id); // Cannot set ID attr on non-element
-    }
     if (typeof classes == 'string') {
       let classList = classes.split(' ');
       for (let i = 0; i < classList.length; i++) {
-        clone.classList.add(classList[i]);
+        // clone.classList.add(classList[i]); // BROKEN
       }
     }
 
@@ -102,12 +100,24 @@ var veneer = {
     }
     // TODO: Check if parent is a function or DOM node
     let attachedNode = this.attachNode(parent, clone, attachmentPoint);
+    console.info('attachedNode', attachedNode);
+
+    if (id) {
+      try {
+        attachedNode.id = id;
+      } catch (ex) {
+        console.warn(ex);
+      }
+    }
+
     if (events) {
       for (let prop in events) {
+        console.log(prop, events[prop]);
         // TODO verify eventName as valid
         if (events.hasOwnProperty(prop)) {
           if (typeof events[prop] == 'function') {
-            attachedNode.addEventListener(prop, events[prop]);
+            console.info('adding event listener...');
+            attachedNode.addEventListener(prop, function(evt) {events[prop](evt);}, false);
           }
         }
       }

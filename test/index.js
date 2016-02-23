@@ -31,7 +31,8 @@ function testPlaceUIElement() {
   let selectNode = veneer.placeUIElement({
     templateId: 'select',
     parent: '#app',
-    id: 'my-select'
+    id: 'my-select',
+    eventHandlers: { change: function (event) { console.log(event.target); } }
   });
 
   var myList = [
@@ -47,7 +48,8 @@ function testPlaceUIElement() {
     var newNode = veneer.placeUIElement({
       templateId: 'option',
       assignedData: {'select-item': myList[idx]},
-      parent: '.select'
+      parent: '.select',
+      classes: 'foo bar'
     });
     console.log(newNode);
   }
