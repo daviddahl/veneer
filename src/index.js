@@ -88,23 +88,10 @@ var veneer = {
     }
 
     var clone = document.importNode(tmpl.content, true);
-    if (typeof classes == 'string') {
-      let classList = classes.split(' ');
-      for (let i = 0; i < classList.length; i++) {
-        // clone.classList.add(classList[i]); // BROKEN
-      }
-    }
-
-    if (clear) {
-      this.clearNode(parent);
-    }
-    // TODO: Check if parent is a function or DOM node
-    let attachedNode = this.attachNode(parent, clone, attachmentPoint);
-    console.info('attachedNode', attachedNode);
 
     if (id) {
       try {
-        attachedNode.id = id;
+        clone.firstElementChild.id = id;
       } catch (ex) {
         console.warn(ex);
       }
@@ -117,11 +104,26 @@ var veneer = {
         if (events.hasOwnProperty(prop)) {
           if (typeof events[prop] == 'function') {
             console.info('adding event listener...');
-            attachedNode.addEventListener(prop, function(evt) {events[prop](evt);}, false);
+            clone.firstElementChild.addEventListener(prop, events[prop]);
           }
         }
       }
     }
+
+    if (typeof classes == 'string') {
+      let classList = classes.split(' ');
+      for (let i = 0; i < classList.length; i++) {
+        clone.firstElementChild.classList.add(classList[i]); // BROKEN
+      }
+    }
+
+    if (clear) {
+      this.clearNode(parent);
+    }
+    // TODO: Check if parent is a function or DOM node
+    let attachedNode = this.attachNode(parent, clone, attachmentPoint);
+    console.info('attachedNode', attachedNode);
+
     return attachedNode;
   },
 
