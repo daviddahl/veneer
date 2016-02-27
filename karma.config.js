@@ -2,8 +2,6 @@ var path = require('path');
 
 module.exports = function (config) {
   config.set({
-    customContextFile: './test/index.html',
-    customDebugFile: './test/index.html',
     browsers: ['Chrome', 'Firefox'],
     coverageReporter: {
       reporters: [
@@ -11,19 +9,28 @@ module.exports = function (config) {
         { type: 'lcovonly', subdir: '.' },
       ],
     },
+    jsonFixturesPreprocessor: {
+      variableName: '__json__'
+    },
     pluguins: [
       'karma-chrome-launcher',
-      'karma-firefox-launcher'
+      'karma-firefox-launcher',
+      'karma-fixture',
+      'karma-html2js-preprocessor',
+      'karma-json-fixtures-preprocessor',
     ],
     files: [
       'tests.webpack.js',
-      { pattern: 'test/*.html', watched: true, served: true, included: false },
+      { pattern: 'spec/fixtures/index.html'}
     ],
     frameworks: [
       'jasmine',
+      'fixture'
     ],
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap'],
+      'spec/fixtures/index.html': ['html2js'],
+      'spec/fixtures/index.json': ['json_fixtures']
     },
     reporters: ['progress', 'coverage'],
     webpack: {

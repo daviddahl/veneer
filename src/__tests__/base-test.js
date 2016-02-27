@@ -1,8 +1,21 @@
 import veneer from '../index.js';
 
 describe('veneer', () => {
+
+  beforeEach(function(){
+    this.result = fixture.load('index.html');
+  });
+
+  afterEach(function(){
+    fixture.cleanup()
+  });
+
   it('should be an object', () => {
-    expect(typeof veneer).toBe('object');
+    console.log('typeof veneer', typeof veneer);
+    expect(veneer).toBeDefined();
+    expect(veneer.place).toBeDefined();
+    console.log('fixture: ', fixture.el.firstChild);
+    expect(fixture.el.firstChild).toBeDefined();
   });
 
   it('should method called place', () => {
