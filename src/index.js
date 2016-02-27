@@ -96,7 +96,7 @@ var veneer = {
         console.warn(ex);
       }
     }
-
+    // XXX TODO: check the cild count before making too many assumptions via 'childElementCount'
     if (events) {
       for (let prop in events) {
         console.log(prop, events[prop]);
@@ -121,10 +121,10 @@ var veneer = {
       this.clearNode(parent);
     }
     // TODO: Check if parent is a function or DOM node
-    let attachedNode = this.attachNode(parent, clone, attachmentPoint);
-    console.info('attachedNode', attachedNode);
+    this.attachNode(parent, clone, attachmentPoint);
+    console.info('clone', clone.firstElementChild);
 
-    return attachedNode;
+    return clone.firstElementChild;
   },
 
   attachNode: function (parent, child, attachmentPoint) {
@@ -132,16 +132,18 @@ var veneer = {
     console.log(arguments);
     switch (attachmentPoint) {
       case 'append':
-        return parent.appendChild(child);
+        parent.appendChild(child);
+        break;
       case 'prepend':
-        return this.prepend(parent, child);
+        this.prepend(parent, child);
+        break;
       default:
         return;
     }
   },
 
   prepend: function (parent, child) {
-    return parent.insertBefore(child, parent.firstChild);
+    parent.insertBefore(child, parent.firstChild);
   },
 
   clearNode: function (node) {
@@ -151,6 +153,9 @@ var veneer = {
     }
   },
 
+  getTitle: function () {
+    console.log(document.title);
+  }
 };
 
 export { veneer as default };

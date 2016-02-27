@@ -1,1 +1,0 @@
-NOTE: Tests will be placed inside this directory after running `npm run build-test`
