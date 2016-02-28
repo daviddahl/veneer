@@ -18,11 +18,11 @@ First, we need a template:
 import veneer from '../index.js';
 
 veneer.place({
-  templateId: 'button',
-  parent: '#app',
-  assignedData: {'button': 'Pushhhhh Iiiit'},
-  id: 'pushme-button',
-  eventHandlers: {
+  templateId: 'button', // get the template by ID
+  parent: '#app', // Get parent node by ID or pass in parent element
+  assignedData: {'my-button': 'Pushhhhh Iiiit'}, // the element in the template with the 'my-button' class has its textContent set to 'Pushhhhhh Iiiit'
+  id: 'pushme-button', // Set the node's ID attribute
+  eventHandlers: { // set event handlers for this element
     click: function () { alert('clicked!'); }
   }
 });
