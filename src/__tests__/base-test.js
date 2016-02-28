@@ -110,14 +110,22 @@ describe('veneer', () => {
       }
     });
     // Click the button
-    document.querySelector('button').click();
-    // expect(testClickVal).toBe(1);
+    var btn = document.querySelector('#pushme-button');
+    console.log(btn);
+    btn.click();
+    expect(testClickVal).toBe(1);
 
     // Change the option
     var sel = document.querySelector('select');
-    var opts = sel.options;
-    sel.selectedIndex = 2;
-    // expect(testChangeVal).toBe(1);
+    if ("createEvent" in document) {
+      var evt = document.createEvent("HTMLEvents");
+      evt.initEvent("change", false, true);
+      sel.dispatchEvent(evt);
+    } else {
+      sel.fireEvent("onchange");
+    }
+
+    expect(testChangeVal).toBe(1);
   });
   
 });
