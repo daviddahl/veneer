@@ -2,8 +2,8 @@ var path = require('path');
 
 module.exports = function (config) {
   config.set({
-    // browsers: ['Chrome', 'Firefox'],
-    browsers: ['PhantomJS'],
+    browsers: ['Firefox'],
+    // browsers: ['PhantomJS'],
     coverageReporter: {
       reporters: [
         { type: 'html', subdir: 'html' },
@@ -16,6 +16,7 @@ module.exports = function (config) {
     pluguins: [
       'karma-chrome-launcher',
       'karma-firefox-launcher',
+      'karma-phantomjs-launcher',
       'karma-fixture',
       'karma-html2js-preprocessor',
       'karma-json-fixtures-preprocessor',

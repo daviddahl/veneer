@@ -9,7 +9,7 @@
     "prepublish": "npm run build",
     "clean": "rimraf dist build",
     "lint": "eslint src",
-    "test": "karma start --single-run --no-auto-watch karma.config.js",
+    "test": "karma start --single-run --no-auto-watch karma.config.js --browsers Firefox",
     "build-orig": "webpack --progress --colors && cp ./test/index.html ./dist/test/index.html",
     "build-test": "webpack --progress --colors --config=webpack.test.config.js && cp ./test/index.html ./dist/test/index.html"
   },
@@ -34,9 +34,11 @@
     "karma-html2js-preprocessor": "^0.1.0",
     "karma-jasmine": "^0.3.6",
     "karma-json-fixtures-preprocessor": "0.0.6",
+    "karma-phantomjs-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "loader-utils": "^0.2.12",
+    "phantomjs-prebuilt": "^2.1.4",
     "rimraf": "^2.5.0",
     "webpack": "^1.12.13"
   },
