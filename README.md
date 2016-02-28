@@ -1,6 +1,6 @@
 # veneer
-JS anti-framework leveraging web APIs built into browsers
+JS anti-framework leveraging browser APIs & DOM <template> tag 
 
-Getting started: `npm run build`
+Getting started: `npm install`
 
-Run the tests: `npm run build-test` and open `dist/test/index.html` in a browser
+Run the tests: `npm run test`
