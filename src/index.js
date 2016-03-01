@@ -1,12 +1,38 @@
-// Veneer helper object
-
+/**
+ *
+ * Veneer: A compact UI creation API (and anti-framework)
+ * @author David Dahl, ddahl@nulltxt.se
+ * @license MIT
+ * @copyright David Dahl, 2016
+ *
+ */
 var veneer = {
+  /**
+   * Checks to see if the browser supports the template HTMLElement
+   */
   checkEnv: function () {
     if (!('content' in document.createElement('template'))) {
       console.error('<template> tag not supported in this browser!');
     }
   },
-
+  /**
+   * Create a UI element and place it into the DOM
+   * @param {object} options - a configuration object that describes the
+   * @description element we are creating, where to insert it,
+   * eventListeners to add, ID, classes, etc
+   * Note: we do assume that each template has a wrapper node
+   *       with 0 or more childNodes inside
+   ```
+     veneer.place({
+     templateId: 'button', // <-- a template's DOM ID
+     parent: '#app', // <-- The parent node to append this new UI node to
+     assignedData: {'button': 'Pushhhhh Iiiit'}, // <-- textContent for each node found inside this template node with class
+     id: 'pushme-button', // <-- new node's ID
+     eventHandlers: { // <-- eventHandlers for the outer node
+     click: function () { alert('hi'); }
+     };
+   ```
+   */
   place: function (options) {
     return this.placeUIElement(options);
   },
@@ -58,7 +84,19 @@ var veneer = {
                              events);
     return node;
   },
-
+  /**
+   *
+   * Internal API to generate the new node
+   * @param {string} templateId The ID of the template expected in the current window.document
+   * @param {object} data The textContent of each childNode (className: textContent)
+   * @param {string} parent The querySelector-style querystring to find the parent node, OR, the node itself
+   * @param {boolean} clear Optionally remove all childNodes from the parentNode before appending/prepending the new nodes
+   * @param {string} attachmentPoint 'append' or 'prepend' new node to parentNode
+   * @param {string} id The id to assign to the new node
+   * @param {string} classes Space-delimited string of classes to assign to the new node
+     @param {object} events eventType: function object of eventHandlers to set to the outernode
+   *
+  */
   makeNode: function (templateId, data, parent, clear=false, attachmentPoint='append', id=null, classes=null, events=null) {
     // Use Typo to handle arg validation
     var qid = '#' + templateId;
@@ -74,6 +112,7 @@ var veneer = {
           let node = tmpl.content.querySelector(klass);
           if (!node) {
             console.error('There is no node with class: ' + klass);
+            continue;
           }
           // TODO: switch on nodetype
           if ((node.nodeType == 1) && (typeof node.value == 'string')) {
@@ -90,7 +129,7 @@ var veneer = {
     var clone = document.importNode(tmpl.content, true);
 
     if (id) {
-      try {
+      try { // TODO: remove this try/catch
         clone.firstElementChild.id = id;
       } catch (ex) {
         console.warn(ex);
@@ -127,9 +166,13 @@ var veneer = {
     return clone.firstElementChild;
   },
 
+  /**
+   * Attach the new node to parent at attachment point
+   * @param {object} parent parentNode
+   * @param {object} child childNode
+   * @param {string} attachmentPoint Either 'append' or 'prepend'
+   */
   attachNode: function (parent, child, attachmentPoint) {
-    console.log('attachNode....');
-    console.log(arguments);
     switch (attachmentPoint) {
       case 'append':
         parent.appendChild(child);
@@ -138,6 +181,7 @@ var veneer = {
         this.prepend(parent, child);
         break;
       default:
+        console.error('attachmentPoint argument must be \'append\' or \'prepend\'');
         return;
     }
   },
@@ -146,16 +190,17 @@ var veneer = {
     parent.insertBefore(child, parent.firstChild);
   },
 
+  /**
+   * clears out all childNodes from parent node
+   * @param {object} node The parent node to clear
+   */
   clearNode: function (node) {
     // remove all existing child nodes
     while (node.firstChild) {
       node.removeChild(node.firstChild);
     }
-  },
-
-  getTitle: function () {
-    console.log(document.title);
   }
+
 };
 
 export { veneer as default };
