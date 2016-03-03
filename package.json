@@ -9,7 +9,8 @@
     "prepublish": "npm run build",
     "clean": "rimraf dist build",
     "lint": "eslint src",
-    "test": "karma start --single-run --no-auto-watch karma.config.js --browsers Firefox"
+    "test": "karma start --single-run --no-auto-watch karma.config.js --browsers Firefox",
+    "build:examples": "webpack examples/app.js dist/bundle.js --config tools/webpack.config.examples.js"
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",

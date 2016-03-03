@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example Veneer App</title>
+    <script type="text/javascript" src="../dist/bundle.js"></script>
+    <link href="app.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- APP CONTAINER -->
+    <div id="app">
+    </div>
+
+    <!-- TEMPLATES -->
+    <template id="nav-item">
+      <li><a class="item" href="#"></a></li>
+    </template>
+    
+    <template id="header">
+      <header class="app-header">
+        <div class="headline"></div>
+        <nav class="top-nav">
+          <ul class="nav-items">
+          </ul>
+        </nav>
+      </header>
+    </template>
+
+    <template id="view-generic">
+      <div class="view">
+        <h1 class="headline"></h1>
+        <p class="content"></p>
+      </div>
+    </template>
+
+    <template id="view-contact">
+      <div class="view">
+        <h1 class="headline"></h1>
+        <p class="content">
+          <h2 class="contact-email"></h2>
+          <p class="contact-address"></p>
+        </p>
+      </div>
+    </template>
+
+    <template id="footer">
+      <nav class="bottom-nav">
+        <ul>
+          <li class="nav-copyright"></li>
+      </nav>
+    </template>
+
+  </body>
+</html>
